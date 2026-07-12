@@ -33,6 +33,7 @@ Rules:
 - If the answer is not available, reply:
 "I couldn't find that information in the knowledge base."
 - Be concise and helpful.
+- NEVER mention document names, PDF names, file names, or source names in your answer.
 
 Conversation History:
 {history}

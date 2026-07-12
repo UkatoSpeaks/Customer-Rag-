@@ -44,7 +44,7 @@ st.markdown(
     /* ── Hero header ── */
     .hero-header {
         text-align: center;
-        padding: 2rem 1rem 1.5rem;
+        padding: 2rem 1rem 1rem;
     }
     .hero-header .brand {
         font-size: 2.6rem;
@@ -62,64 +62,44 @@ st.markdown(
         font-weight: 400;
     }
 
-    /* ── Chat container ── */
-    .chat-wrapper {
-        max-width: 780px;
-        margin: 0 auto;
-    }
-
-    /* ── Message bubbles ── */
-    .msg-user {
-        display: flex;
-        justify-content: flex-end;
-        margin: 0.6rem 0;
-        animation: fadeUp 0.3s ease;
-    }
-    .msg-assistant {
-        display: flex;
-        justify-content: flex-start;
-        margin: 0.6rem 0;
-        animation: fadeUp 0.3s ease;
-    }
-    .bubble-user {
-        background: linear-gradient(135deg, #7c3aed, #4f46e5);
-        color: #fff;
-        padding: 0.85rem 1.1rem;
-        border-radius: 18px 18px 4px 18px;
-        max-width: 72%;
-        font-size: 0.92rem;
-        line-height: 1.55;
-        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
-    }
-    .bubble-assistant {
-        background: rgba(255, 255, 255, 0.07);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #e2e8f0;
-        padding: 0.85rem 1.1rem;
-        border-radius: 18px 18px 18px 4px;
-        max-width: 80%;
-        font-size: 0.92rem;
-        line-height: 1.55;
+    /* ── Native chat message bubbles ── */
+    [data-testid="stChatMessage"] {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.09) !important;
+        border-radius: 16px !important;
+        padding: 0.75rem 1rem !important;
+        margin-bottom: 0.5rem !important;
         backdrop-filter: blur(10px);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+        animation: fadeUp 0.25s ease;
+        transition: box-shadow 0.2s ease;
     }
-    .avatar {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
-        flex-shrink: 0;
-        margin: 0 0.55rem;
+    [data-testid="stChatMessage"]:hover {
+        box-shadow: 0 4px 24px rgba(124,58,237,0.18);
     }
-    .avatar-user { background: linear-gradient(135deg,#7c3aed,#4f46e5); }
-    .avatar-bot  { background: linear-gradient(135deg,#0ea5e9,#34d399); }
+    /* User messages – slightly highlighted */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+        background: rgba(124, 58, 237, 0.12) !important;
+        border-color: rgba(124, 58, 237, 0.25) !important;
+    }
+    /* Message text colour */
+    [data-testid="stChatMessage"] p,
+    [data-testid="stChatMessage"] li,
+    [data-testid="stChatMessage"] span {
+        color: #e2e8f0 !important;
+    }
+    /* Avatar circles */
+    [data-testid="chatAvatarIcon-user"] {
+        background: linear-gradient(135deg, #7c3aed, #4f46e5) !important;
+        border-radius: 50% !important;
+    }
+    [data-testid="chatAvatarIcon-assistant"] {
+        background: linear-gradient(135deg, #0ea5e9, #34d399) !important;
+        border-radius: 50% !important;
+    }
 
-    /* ── Sources pill ── */
+    /* ── Source pills ── */
     .source-pills {
-        margin-top: 0.55rem;
+        margin-top: 0.6rem;
         display: flex;
         flex-wrap: wrap;
         gap: 0.35rem;
@@ -132,32 +112,6 @@ st.markdown(
         padding: 0.2rem 0.65rem;
         font-size: 0.75rem;
         font-weight: 500;
-    }
-
-    /* ── Divider ── */
-    .chat-divider {
-        border: none;
-        border-top: 1px solid rgba(255,255,255,0.07);
-        margin: 0.4rem 0;
-    }
-
-    /* ── Input box ── */
-    [data-testid="stChatInput"] {
-        background: rgba(255,255,255,0.06) !important;
-        border: 1px solid rgba(255,255,255,0.14) !important;
-        border-radius: 14px !important;
-        color: #fff !important;
-    }
-    [data-testid="stChatInput"]:focus-within {
-        border-color: rgba(124,58,237,0.6) !important;
-        box-shadow: 0 0 0 3px rgba(124,58,237,0.2) !important;
-    }
-    [data-testid="stChatInput"] textarea {
-        color: #fff !important;
-    }
-    [data-testid="stChatInput"] button {
-        background: linear-gradient(135deg, #7c3aed, #4f46e5) !important;
-        border-radius: 10px !important;
     }
 
     /* ── Status badge ── */
@@ -221,14 +175,51 @@ st.markdown(
         border-color: rgba(124,58,237,0.5);
     }
 
+    /* ── Input box ── */
+    [data-testid="stChatInput"] {
+        background: rgba(255,255,255,0.06) !important;
+        border: 1px solid rgba(255,255,255,0.14) !important;
+        border-radius: 14px !important;
+        color: #fff !important;
+    }
+    [data-testid="stChatInput"]:focus-within {
+        border-color: rgba(124,58,237,0.6) !important;
+        box-shadow: 0 0 0 3px rgba(124,58,237,0.2) !important;
+    }
+    [data-testid="stChatInput"] textarea {
+        color: #fff !important;
+    }
+    [data-testid="stChatInput"] button {
+        background: linear-gradient(135deg, #7c3aed, #4f46e5) !important;
+        border-radius: 10px !important;
+        transition: opacity 0.2s;
+    }
+    [data-testid="stChatInput"] button:hover { opacity: 0.85; }
+
+    /* ── Thinking indicator ── */
+    .thinking-dot {
+        display: inline-block;
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: #a78bfa;
+        margin: 0 2px;
+        animation: bounce 1.2s infinite;
+    }
+    .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+
     /* ── Animations ── */
     @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(10px); }
+        from { opacity: 0; transform: translateY(8px); }
         to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes pulse {
         0%, 100% { opacity: 1; }
         50%       { opacity: 0.4; }
+    }
+    @keyframes bounce {
+        0%, 80%, 100% { transform: translateY(0); }
+        40%            { transform: translateY(-6px); }
     }
 
     /* ── Scrollbar ── */
@@ -282,6 +273,9 @@ def send_message(question: str, session_id: str):
         return {"error": str(e)}
 
 
+
+
+
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### 🤖 GigaCorp Support")
@@ -333,13 +327,13 @@ st.markdown(
     """
     <div class="hero-header">
         <div class="brand">GigaCorp Support</div>
-        <div class="subtitle">AI-powered customer support &nbsp;·&nbsp; Ask anything about our products & services</div>
+        <div class="subtitle">AI-powered customer support &nbsp;·&nbsp; Ask anything about our products &amp; services</div>
     </div>
     """,
     unsafe_allow_html=True,
 )
 
-# ── Chat history ───────────────────────────────────────────────────────────────
+# ── Chat history (native st.chat_message for smooth rendering) ─────────────────
 if not st.session_state.messages:
     st.markdown(
         """
@@ -359,62 +353,41 @@ if not st.session_state.messages:
     )
 else:
     for msg in st.session_state.messages:
-        if msg["role"] == "user":
-            st.markdown(
-                f"""
-                <div class="msg-user">
-                    <div class="bubble-user">{msg["content"]}</div>
-                    <div class="avatar avatar-user">👤</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-        else:
-            sources_html = ""
-            if msg.get("sources"):
-                pills = "".join(
-                    f'<span class="source-pill">📄 {s["source"]} · p.{s["page"]}</span>'
-                    for s in msg["sources"]
-                )
-                sources_html = f'<div class="source-pills">{pills}</div>'
-
-            st.markdown(
-                f"""
-                <div class="msg-assistant">
-                    <div class="avatar avatar-bot">🤖</div>
-                    <div class="bubble-assistant">
-                        {msg["content"]}
-                        {sources_html}
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+        role = msg["role"]
+        with st.chat_message(role, avatar="👤" if role == "user" else "🤖"):
+            st.markdown(msg["content"])
 
 # ── Chat input ─────────────────────────────────────────────────────────────────
 if prompt := st.chat_input("Type your question here…"):
-    # Append user message
+    # 1) Show the user bubble immediately (no rerun needed yet)
     st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user", avatar="👤"):
+        st.markdown(prompt)
 
-    # Show spinner while waiting for response
-    with st.spinner("Thinking…"):
+    # 2) Show animated thinking indicator while waiting
+    with st.chat_message("assistant", avatar="🤖"):
+        thinking_placeholder = st.empty()
+        thinking_placeholder.markdown(
+            '<span class="thinking-dot"></span>'
+            '<span class="thinking-dot"></span>'
+            '<span class="thinking-dot"></span>',
+            unsafe_allow_html=True,
+        )
+
         result = send_message(prompt, st.session_state.session_id)
 
-    if "error" in result:
-        st.session_state.messages.append(
-            {
-                "role": "assistant",
-                "content": f"⚠️ {result['error']}",
-                "sources": [],
-            }
-        )
-    else:
-        st.session_state.messages.append(
-            {
-                "role": "assistant",
-                "content": result.get("answer", "No answer returned."),
-                "sources": result.get("sources", []),
-            }
-        )
+        # 3) Replace indicator with the actual answer
+        thinking_placeholder.empty()
 
-    st.rerun()
+        if "error" in result:
+            answer = f"⚠️ {result['error']}"
+            sources = []
+        else:
+            answer = result.get("answer", "No answer returned.")
+
+        st.markdown(answer)
+
+    # 4) Persist the assistant message for history
+    st.session_state.messages.append(
+        {"role": "assistant", "content": answer}
+    )

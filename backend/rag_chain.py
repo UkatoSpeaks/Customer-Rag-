@@ -1,3 +1,5 @@
+import os
+
 from langchain_core.output_parsers import StrOutputParser
 
 from config import llm
@@ -61,6 +63,8 @@ def ask_question(question: str, session_id: str = "default"):
 
     for doc in docs:
         source = doc.metadata.get("source", "Unknown")
+        # Show only clean filename without path or extension
+        source = os.path.splitext(os.path.basename(source))[0]
         page = doc.metadata.get("page", 0) + 1
 
         key = (source, page)

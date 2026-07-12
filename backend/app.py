@@ -3,16 +3,28 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from config import CHROMA_DB_DIR
 from ingest import ingest
-from rag_chain import ask_question
 from schemas import ChatRequest, ChatResponse
 
-# Automatically create the vector database if it doesn't exist
-if not os.path.exists(CHROMA_DB_DIR):
+# ------------------------------------------------------------------
+# Ensure vector database exists BEFORE importing rag_chain
+# ------------------------------------------------------------------
+
+DB_PATH = "db/chroma"
+
+if not os.path.exists(DB_PATH) or not os.listdir(DB_PATH):
     print("Vector database not found. Creating...")
+
     ingest()
+
     print("Vector database created successfully!")
+
+# Import AFTER ingest()
+from rag_chain import ask_question
+
+# ------------------------------------------------------------------
+# FastAPI App
+# ------------------------------------------------------------------
 
 app = FastAPI(
     title="GigaCorp Customer Support API",
@@ -27,6 +39,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ------------------------------------------------------------------
+# Routes
+# ------------------------------------------------------------------
 
 @app.get("/")
 def root():
@@ -42,8 +57,12 @@ def health():
     }
 
 
-@app.post("/chat", response_model=ChatResponse)
+@app.post(
+    "/chat",
+    response_model=ChatResponse,
+)
 def chat(request: ChatRequest):
+
     response = ask_question(
         question=request.question,
         session_id=request.session_id,

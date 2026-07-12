@@ -36,7 +36,13 @@ def create_vector_store(chunks):
 
 def ingest():
     documents = load_documents()
+
+    print(f"Loaded {len(documents)} pages")
+
     chunks = split_documents(documents)
+
+    print(f"Created {len(chunks)} chunks")
+
     create_vector_store(chunks)
 
     print("Vector database created successfully!")

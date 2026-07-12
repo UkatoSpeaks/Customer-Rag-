@@ -1,7 +1,10 @@
+from pathlib import Path
 import os
 
 from dotenv import load_dotenv
 from langchain_mistralai import ChatMistralAI, MistralAIEmbeddings
+
+BASE_DIR = Path(__file__).resolve().parent
 
 load_dotenv()
 
@@ -21,4 +24,4 @@ embeddings = MistralAIEmbeddings(
     model="mistral-embed",
 )
 
-CHROMA_DB_DIR = "db/chroma"
+CHROMA_DB_DIR = str(BASE_DIR / "db" / "chroma")

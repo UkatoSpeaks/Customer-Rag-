@@ -1,6 +1,8 @@
 import uuid
 import requests
 import streamlit as st
+import os
+
 
 # ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -11,8 +13,10 @@ st.set_page_config(
 )
 
 # ── Backend URL ────────────────────────────────────────────────────────────────
-BACKEND_URL = "http://localhost:8000"
-
+BACKEND_URL = os.getenv(
+    "BACKEND_URL",
+    "https://customer-rag-2.onrender.com",
+)
 # ── Custom CSS ─────────────────────────────────────────────────────────────────
 st.markdown(
     """
@@ -249,7 +253,10 @@ if "backend_online" not in st.session_state:
 # ── Helper: check backend health ───────────────────────────────────────────────
 def check_backend():
     try:
-        r = requests.get(f"{BACKEND_URL}/", timeout=3)
+        r = requests.get(
+            f"{BACKEND_URL}/health",
+            timeout=3,
+        )
         return r.status_code == 200
     except Exception:
         return False

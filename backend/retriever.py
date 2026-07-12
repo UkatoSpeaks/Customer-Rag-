@@ -16,7 +16,21 @@ def get_retriever():
 
 def retrieve_documents(query: str):
     retriever = get_retriever()
-    return retriever.invoke(query)
+
+    docs = retriever.invoke(query)
+
+    print("=" * 60)
+    print("Query:", query)
+    print("Retrieved documents:", len(docs))
+
+    for i, doc in enumerate(docs):
+        print(f"\nDocument {i + 1}:")
+        print(doc.page_content[:300])
+        print(doc.metadata)
+
+    print("=" * 60)
+
+    return docs
 
 
 def format_documents(documents):

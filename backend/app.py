@@ -3,14 +3,13 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from config import CHROMA_DB_DIR
 from ingest import ingest
 from rag_chain import ask_question
 from schemas import ChatRequest, ChatResponse
 
-DB_PATH = "db"
-
-# Create vector database automatically if it doesn't exist
-if not os.path.exists(DB_PATH):
+# Automatically create the vector database if it doesn't exist
+if not os.path.exists(CHROMA_DB_DIR):
     print("Vector database not found. Creating...")
     ingest()
     print("Vector database created successfully!")
@@ -43,10 +42,7 @@ def health():
     }
 
 
-@app.post(
-    "/chat",
-    response_model=ChatResponse,
-)
+@app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
     response = ask_question(
         question=request.question,
